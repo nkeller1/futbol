@@ -54,8 +54,8 @@ class GamesCollection
     games.each do |game|
       games_per_season[game.season] += 1
     end
-  games_per_season
- end
+    games_per_season
+  end
 
   def percentage_ties
     ties = @games.find_all { |game| game.home_goals == game.away_goals}
@@ -83,10 +83,6 @@ class GamesCollection
   end
 
   def team_id_to_avg
-    # Create a hash that matches, for each game, the team id to the matching goals
-    # If the team id shows up more than once, then its goals for that new game
-    # are added to the hash key created for it. This should give us for each team,
-    # the total amount of goals they made for all games.
     y = games.reduce({}) do |acc, game|
       if acc[game.home_team_id] == nil
         acc[game.home_team_id] = []
@@ -108,8 +104,6 @@ class GamesCollection
       end
       acc
     end
-    # Create a hash that matches each team_id to their goal average (total
-    # amount of goals divided by the number of games they played)
     team_id_to_avg = y.reduce({}) do |acc, y|
       id = y[0]
       avg = (y[1].sum) / (y[1].length).to_f
@@ -120,9 +114,7 @@ class GamesCollection
 
   def best_offense_id
     avg_hash = team_id_to_avg
-    #Find team_id with highest average goals
     highest_avg = avg_hash.max_by {|k, v| v}
-    #pull that team's id
     highest_avg_id = highest_avg[0]
   end
 
@@ -133,10 +125,6 @@ class GamesCollection
   end
 
   def average_goals_scored_by_opposite_team
-#calculate the average goals scored ON each home/away team
-#goals scored against the other team
-#match up away team id with home team goals
-#match up home team it with away team goals
     id_associate= games.reduce({}) do |acc, game|
       if acc.has_key?(game.home_team_id) == false
         acc[game.home_team_id] = []
@@ -148,6 +136,7 @@ class GamesCollection
       acc[game.away_team_id] << game.home_goals.to_f.round(2)
       acc
     end
+
     id_associate.reduce({}) do |acc, id_goals|
       id = id_goals.first
       goal_average = (id_goals.last.sum / id_goals.last.length).to_f.round(2)
@@ -157,12 +146,10 @@ class GamesCollection
   end
 
   def best_defense_id
-    best_d = average_goals_scored_by_opposite_team.min_by { |team_id, goals| goals }
-    best_d.first
+    average_goals_scored_by_opposite_team.min_by { |team_id, goals| goals }.first
   end
 
   def worst_defense_id
-    worst_d = average_goals_scored_by_opposite_team.max_by { |team_id, goals| goals }
-    worst_d.first
+    average_goals_scored_by_opposite_team.max_by { |team_id, goals| goals }.first
   end
 end
