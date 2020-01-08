@@ -123,10 +123,11 @@ class GameTeamsCollection
       end
       acc
     end
-    reg_team_to_allresults.reduce({}) do |acc, kv|
-      team_id = kv[0]
-      win_count = kv[1].count("WIN")
-      total_games = kv[1].length
+
+    reg_team_to_allresults.reduce({}) do |acc, allresults|
+      team_id = allresults[0]
+      win_count = allresults[1].count("WIN")
+      total_games = allresults[1].length
       win_percentage = (win_count / total_games.to_f) * 100
       acc[team_id] = [win_percentage]
       acc
@@ -153,10 +154,10 @@ class GameTeamsCollection
       end
       acc
     end
-    post_team_to_allresults.reduce({}) do |acc, kv|
-      team_id = kv[0]
-      win_count = kv[1].count("WIN")
-      total_games = kv[1].length
+    post_team_to_allresults.reduce({}) do |acc, allresults|
+      team_id = allresults[0]
+      win_count = allresults[1].count("WIN")
+      total_games = allresults[1].length
       win_percentage = (win_count / total_games.to_f) * 100
       acc[team_id] = [win_percentage]
       acc
