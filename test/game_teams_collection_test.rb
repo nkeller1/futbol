@@ -47,8 +47,15 @@ class GameTeamsCollectionTest < Minitest::Test
   end
 
   def test_biggest_surprise_id
-    
     assert_equal 26, @game_teams_collection.biggest_surprise_id("20132014")
+  end
+
+  def test_away_id_to_average
+    assert_equal 7, @game_teams_collection.away_id_to_average.length
+  end
+
+  def test_home_id_to_average
+    assert_equal 8, @game_teams_collection.home_id_to_average.length
   end
 
   def test_least_accurate_team
@@ -102,7 +109,7 @@ class GameTeamsCollectionTest < Minitest::Test
   end
 
   def test_lowest_scoring_home_team
-      assert_equal 9, @game_teams_collection.lowest_scoring_home_team
+    assert_equal 9, @game_teams_collection.lowest_scoring_home_team
   end
 
   def test_head_to_head
