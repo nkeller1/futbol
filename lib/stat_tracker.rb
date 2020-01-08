@@ -218,5 +218,4 @@ class StatTracker < GamesCollection
     summary
   end
 
-
 end

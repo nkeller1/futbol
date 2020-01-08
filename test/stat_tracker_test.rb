@@ -137,6 +137,10 @@ class StatTrackerTest < Minitest::Test
     assert_equal "Chicago Red Stars", @stat_tracker.rival("18")
   end
 
+  def test_fewest_tackles
+    assert_equal "New England Revolution", @stat_tracker.fewest_tackles("20142015")
+  end
+
   def test_seasonal_summary
     @stat_tracker.seasonal_summary("18")
  #    expected = {:postseason=>

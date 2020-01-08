@@ -23,26 +23,20 @@ class GameTeamsCollection
   def highest_scoring_visitor
     team_id_to_goal = game_teams.reduce({}) do |acc, gameteam|
       if gameteam.hoa == "away"
-        if acc[gameteam.team_id] == nil
+        if acc.has_key?(gameteam.team_id) == false
           acc[gameteam.team_id] = []
-          acc[gameteam.team_id] << gameteam.goals
-        else
-          acc[gameteam.team_id] << gameteam.goals
         end
+          acc[gameteam.team_id] << gameteam.goals
       end
       acc
     end
-    id_to_average = team_id_to_goal.reduce({}) do |acc, keyvalue|
-      id = keyvalue[0]
-      avg = (keyvalue[1].sum) / (keyvalue[1].length).to_f
 
-      acc[id] = [avg]
+    id_to_average = team_id_to_goal.reduce({}) do |acc, tidgoal|
+      acc[tidgoal[0]] = (tidgoal[1].sum) / (tidgoal[1].length).to_f
       acc
     end
 
-    highest_avg = id_to_average.max_by{|k,v| v}
-
-    highest_avg[0]
+    id_to_average.max_by{|id, average| average}.first
   end
 
   def lowest_scoring_visitor
