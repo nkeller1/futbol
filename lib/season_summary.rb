@@ -1,7 +1,15 @@
-# require 'sorters'
+# require_relative 'games_collection'
+# require_relative 'teams_collection'
+require_relative '../lib/stat_tracker'
 
-module SeasonSummary
+
+class SeasonSummary < StatTracker
   # include Sorters
+
+# def game_teams_collection
+#   super
+# end
+
 
   def season_summary(type, teamid)
     # season_ids = sort_what_by(teamid, season.uniq) #find all season codes per team and use as keys to loop how many times to do this

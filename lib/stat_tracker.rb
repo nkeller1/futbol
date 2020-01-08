@@ -2,10 +2,8 @@ require 'csv'
 require_relative 'games_collection'
 require_relative 'game_teams_collection'
 require_relative 'teams_collection'
-require_relative 'season_summary'
 
-class StatTracker < GamesCollection
-  include SeasonSummary
+class StatTracker
   attr_reader :games_path, :teams_path, :game_teams_path
 
   def self.from_csv(file_paths)
