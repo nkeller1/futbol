@@ -20,7 +20,7 @@ class GameTeamsCollection
     create_instances(game_teams_path, GameTeam)
   end
 
-  def highest_scoring_visitor
+  def away_id_to_average
     team_id_to_goal = game_teams.reduce({}) do |acc, gameteam|
       if gameteam.hoa == "away"
         if acc.has_key?(gameteam.team_id) == false
@@ -31,90 +31,43 @@ class GameTeamsCollection
       acc
     end
 
-    id_to_average = team_id_to_goal.reduce({}) do |acc, tidgoal|
+    team_id_to_goal.reduce({}) do |acc, tidgoal|
       acc[tidgoal[0]] = (tidgoal[1].sum) / (tidgoal[1].length).to_f
       acc
     end
+  end
 
-    id_to_average.max_by{|id, average| average}.first
+  def highest_scoring_visitor
+    away_id_to_average.max_by{|id, average| average}.first
   end
 
   def lowest_scoring_visitor
-    t_id_to_goal = game_teams.reduce({}) do |acc, gameteam|
-      if gameteam.hoa == "away"
-        if acc[gameteam.team_id] == nil
+    away_id_to_average.min_by{|id, average| average}.first
+  end
+
+  def home_id_to_average
+    id_to_goal = game_teams.reduce({}) do |acc, gameteam|
+      if gameteam.hoa == "home"
+        if acc.has_key?(gameteam.team_id) == false
           acc[gameteam.team_id] = []
-          acc[gameteam.team_id] << gameteam.goals
-        else
-          acc[gameteam.team_id] << gameteam.goals
         end
+        acc[gameteam.team_id] << gameteam.goals
       end
       acc
     end
 
-    id_to_average = t_id_to_goal.reduce({}) do |acc, keyvalue|
-      id = keyvalue[0]
-      avg = (keyvalue[1].sum) / (keyvalue[1].length).to_f
-
-      acc[id] = [avg]
+    id_to_goal.reduce({}) do |acc, tidgoal|
+      acc[tidgoal[0]] = (tidgoal[1].sum) / (tidgoal[1].length).to_f
       acc
     end
-
-    lowest_avg = id_to_average.min_by{|k,v| v}
-
-    lowest_avg[0]
   end
 
   def highest_scoring_home_team
-    id_to_goal = game_teams.reduce({}) do |acc, gameteam|
-      if gameteam.hoa == "home"
-        if acc[gameteam.team_id] == nil
-          acc[gameteam.team_id] = []
-          acc[gameteam.team_id] << gameteam.goals
-        else
-          acc[gameteam.team_id] << gameteam.goals
-        end
-      end
-      acc
-    end
-
-    id_to_average = id_to_goal.reduce({}) do |acc, kv|
-      id = kv[0]
-      avg = (kv[1].sum) / (kv[1].length).to_f
-
-      acc[id] = [avg]
-      acc
-    end
-
-    highest_avg = id_to_average.max_by{|k,v| v}
-
-    highest_avg[0]
+    home_id_to_average.max_by{|id, average| average}.first
   end
 
   def lowest_scoring_home_team
-    id_to_goal = game_teams.reduce({}) do |acc, gameteam|
-      if gameteam.hoa == "home"
-        if acc[gameteam.team_id] == nil
-          acc[gameteam.team_id] = []
-          acc[gameteam.team_id] << gameteam.goals
-        else
-          acc[gameteam.team_id] << gameteam.goals
-        end
-      end
-      acc
-    end
-
-    id_to_average = id_to_goal.reduce({}) do |acc, kv|
-      id = kv[0]
-      avg = (kv[1].sum) / (kv[1].length).to_f
-
-      acc[id] = [avg]
-      acc
-    end
-
-    lowest_avg = id_to_average.min_by {|k, v| v}
-
-    lowest_avg[0]
+    home_id_to_average.min_by {|id, average| average}.first
   end
 
   def winningest_team_id
@@ -123,14 +76,14 @@ class GameTeamsCollection
   end
 
   def best_fans_team_id
-    home_win_percents.keys.max_by do |key|
-      (home_win_percents[key] - away_win_percents[key])
+    home_win_percents.keys.max_by do |id|
+      (home_win_percents[id] - away_win_percents[id])
     end
   end
 
   def worst_fans_team_id
-    home_win_percents.keys.find_all do |key|
-      (home_win_percents[key] < away_win_percents[key])
+    home_win_percents.keys.find_all do |id|
+      (home_win_percents[id] < away_win_percents[id])
     end
   end
 
