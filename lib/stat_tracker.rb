@@ -164,7 +164,7 @@ class StatTracker
 
   def fewest_tackles(season_id)
     teams_collection.associate_team_id_with_team_name(game_teams_collection.fewest_tackles_team_id(season_id))
-  end #need fewest_tackles_team_id
+  end
 
   def team_info(teamid)
     teams_collection.team_info(teamid.to_i)
@@ -199,6 +199,4 @@ class StatTracker
     integer = games_collection.rival_id(teamid).to_i
     teams_collection.associate_team_id_with_team_name(integer)
   end
-
-
 end

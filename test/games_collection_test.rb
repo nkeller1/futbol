@@ -139,9 +139,11 @@ class GamesCollectionTest < Minitest::Test
     assert_equal 2, @gamescollection.biggest_team_blowout_num("18")
   end
 
+  def test_head_to_head
+    assert_equal ({3=>1.0}), @gamescollection.head_to_head("6")
+  end
+
   def test_worst_loss
     assert_equal 1, @gamescollection.worst_loss_num("18")
   end
-
-
 end

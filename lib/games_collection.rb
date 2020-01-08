@@ -169,6 +169,7 @@ class GamesCollection
         seasons_result[game.season] << result
       end
     end
+
     seasons_to_winpercent = seasons_result.reduce({}) do |acc, (key, value)|
       avg = value.count("WIN") / value.length.to_f
       acc[key] = avg
@@ -301,7 +302,6 @@ class GamesCollection
 
   def head_to_head(teamid)
     opponentid_results = Hash.new {|hash, key| hash[key] = []}
-
     games.each do |game|
       if teamid.to_i == game.away_team_id
         result = "WIN" if game.away_goals > game.home_goals
@@ -318,9 +318,8 @@ class GamesCollection
       end
     end
 
-    opponentid_results.reduce({}) do |acc, (key, value)|
-      avg = value.count("WIN") / value.length.to_f
-      acc[key] = avg
+    opponentid_results.reduce({}) do |acc, (team_id, win)|
+      acc[team_id] = win.count("WIN") / win.length.to_f
       acc
     end
   end
@@ -366,6 +365,4 @@ class GamesCollection
     end
     difference_array.max
   end
-
-
 end
