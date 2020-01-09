@@ -1,5 +1,5 @@
 require 'csv'
-require_relative 'games_collection'
+# require_relative 'games_collection'
 require_relative 'game_teams_collection'
 require_relative 'teams_collection'
 require_relative 'season_summary'
@@ -203,8 +203,6 @@ class StatTracker < GamesCollection
   end
 
   def seasonal_summary(teamid)
-    # NOTE: EXPERIMENTAL -- seasons may not return correct info, but it does inherit information that it usable to make keys
-    # NOTE: Need to find list of seasons by teamid
     seasons = count_of_games_by_season.keys #Inherit from GamesCollection
     summary = {}
     seasons.map do |season|
@@ -214,7 +212,6 @@ class StatTracker < GamesCollection
       stats[:regular_season] = season_summary("Regular Season", teamid)
       stats
     end
-    # require "pry"; binding.pry
     summary
   end
 

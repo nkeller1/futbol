@@ -142,25 +142,11 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_seasonal_summary
-    @stat_tracker.seasonal_summary("18")
- #    expected = {:postseason=>
- #  {:win_percentage=>"foo",
- #   :total_goals_scored=>"foo",
- #   :total_goals_against=>"foo",
- #   :average_goals_scored=>"foo",
- #   :average_goals_against=>"foo"},
- # :regular_season=>
- #  {:win_percentage=>"foo",
- #   :total_goals_scored=>"foo",
- #   :total_goals_against=>"foo",
- #   :average_goals_scored=>"foo",
- #   :average_goals_against=>"foo"}}
- #    assert_equal expected,  @stat_tracker.seasonal_summary("18")
     expected = ["20122013", "20142015", "20152016", "20162017", "20132014"]
 
     assert_equal expected, @stat_tracker.seasonal_summary("18").keys
   end
-  
+
   def test_biggest_team_blowout
     assert_equal 1, @stat_tracker.biggest_team_blowout(6)
   end
